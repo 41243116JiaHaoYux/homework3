@@ -1,19 +1,19 @@
 #include <iostream>
-#include <cmath> // ¥Î©ó Evaluate ¨ç¼Æ¤¤ªº pow
+#include <cmath>  
 using namespace std;
 
-// ¸`ÂIµ²ºc©w¸q
+// ç¯€é»žçµæ§‹å®šç¾©
 struct Node {
-    int coef;      // ¨t¼Æ
-    int exp;       // «ü¼Æ
-    Node* next;    // «ü¦V¤U¤@­Ó¸`ÂI
+    int coef;      // ç³»æ•¸
+    int exp;       // æŒ‡æ•¸
+    Node* next;    // æŒ‡å‘ä¸‹ä¸€å€‹ç¯€é»ž
 };
 
 class Polynomial {
 private:
     Node* head;
 
-    // ³Ð«Ø¸`ÂI
+    // å‰µå»ºç¯€é»ž
     Node* createNode(int coef, int exp) {
         Node* newNode = new Node;
         newNode->coef = coef;
@@ -26,7 +26,7 @@ public:
   
     Polynomial() : head(nullptr) {}
 
-    // «þ¨©ºc³y¨ç¼Æ
+    // æ‹·è²æ§‹é€ å‡½æ•¸
     Polynomial(const Polynomial& a) {
         if (!a.head) { 
             head = nullptr;
@@ -37,18 +37,18 @@ public:
         Node* current = head;
         Node* temp = a.head->next;
 
-        // ½Æ»s¨ä¾l¸`ÂI
+        // è¤‡è£½å…¶é¤˜ç¯€é»ž
         while (temp != a.head) {
             current->next = createNode(temp->coef, temp->exp);
             current = current->next;
             temp = temp->next;
         }
-        current->next = head; // ±NÃìªí³s¦¨´`Àô
+        current->next = head; // å°‡éˆè¡¨é€£æˆå¾ªç’°
     }
 
 
     ~Polynomial() {
-        if (!head) return; // ¦pªGÃìªí¬OªÅªº«hª½±µªð¦^
+        if (!head) return; // å¦‚æžœéˆè¡¨æ˜¯ç©ºçš„å‰‡ç›´æŽ¥è¿”å›ž
         Node* current = head->next;
         while (current != head) {
             Node* temp = current;
@@ -59,30 +59,30 @@ public:
         head = nullptr;
     }
 
-    // ½á­È¹Bºâ²Å­«¸ü
+    // è³¦å€¼é‹ç®—ç¬¦é‡è¼‰
     Polynomial& operator=(const Polynomial& a) {
         if (this == &a) return *this; 
-        this->~Polynomial();         // ²MªÅ·í«enode
+        this->~Polynomial();         // æ¸…ç©ºç•¶å‰node
         if (!a.head) {             
             head = nullptr;
             return *this;
         }
-        // ½Æ»sÀY¸`ÂI
+        // è¤‡è£½é ­ç¯€é»ž
         head = createNode(a.head->coef, a.head->exp);
         Node* current = head;
         Node* temp = a.head->next;
 
-        // ½Æ»s¨ä¾l¸`ÂI
+        // è¤‡è£½å…¶é¤˜ç¯€é»ž
         while (temp != a.head) {
             current->next = createNode(temp->coef, temp->exp);
             current = current->next;
             temp = temp->next;
         }
-        current->next = head; // ±NÃìªí³s¦¨´`Àô
+        current->next = head; // å°‡éˆè¡¨é€£æˆå¾ªç’°
         return *this;
     }
 
-    // ´¡¤J¸`ÂI
+    // æ’å…¥ç¯€é»ž
     void insert(int coef, int exp) {
         Node* newNode = createNode(coef, exp);
         if (!head) { 
@@ -116,21 +116,21 @@ public:
         }
     }
 
-    // ¿é¤J²Å­«¸ü 
+    // è¼¸å…¥ç¬¦é‡è¼‰ 
     friend istream& operator>>(istream& is, Polynomial& x) {
         int n;
-        is >> n; // ¿é¤J¶µ¼Æ
+        is >> n; // è¼¸å…¥é …æ•¸
         if (n <= 0) return is;
 
         int coef, exp;
         for (int i = 0; i < n; ++i) {
-            is >> coef >> exp; // ¿é¤J¨t¼Æ©M«ü¼Æ
+            is >> coef >> exp; // è¼¸å…¥ç³»æ•¸å’ŒæŒ‡æ•¸
             x.insert(coef, exp);
         }
         return is;
     }
 
-    // ¿é¥X²Å­«¸ü <<
+    // è¼¸å‡ºç¬¦é‡è¼‰ <<
     friend ostream& operator<<(ostream& os, const Polynomial& x) {
         if (!x.head) {
             os << "0";
@@ -147,7 +147,7 @@ public:
         return os;
     }
 
-    // ¬Û¥[
+    // ç›¸åŠ 
     Polynomial operator+(const Polynomial& b) const {
         Polynomial result;
         Node* aCurrent = head;
@@ -166,14 +166,14 @@ public:
         return result;
     }
 
-    // ¨D­È
+    // æ±‚å€¼
     float Evaluate(float x) const {
         float result = 0;
         if (!head) return result;
 
         Node* current = head;
         do {
-            result += current->coef * pow(x, current->exp); // ¨Ï¥Î¤½¦¡­pºâ­È
+            result += current->coef * pow(x, current->exp); // ä½¿ç”¨å…¬å¼è¨ˆç®—å€¼
             current = current->next;
         } while (current != head);
 
@@ -184,22 +184,22 @@ public:
 int main() {
     Polynomial p1, p2, p3;
 
-    cout << "½Ð¿é¤J²Ä¤@­Ó¦h¶µ¦¡¡]¶µ¼Æ ¨t¼Æ «ü¼Æ¡^¡G";
+    cout << "è«‹è¼¸å…¥ç¬¬ä¸€å€‹å¤šé …å¼ï¼ˆé …æ•¸ ç³»æ•¸ æŒ‡æ•¸ï¼‰ï¼š";
     cin >> p1;
 
-    cout << "½Ð¿é¤J²Ä¤G­Ó¦h¶µ¦¡¡]¶µ¼Æ ¨t¼Æ «ü¼Æ¡^¡G";
+    cout << "è«‹è¼¸å…¥ç¬¬äºŒå€‹å¤šé …å¼ï¼ˆé …æ•¸ ç³»æ•¸ æŒ‡æ•¸ï¼‰ï¼š";
     cin >> p2;
 
     p3 = p1 + p2;
 
-    cout << "²Ä¤@­Ó¦h¶µ¦¡¬°¡G " << p1 << endl;
-    cout << "²Ä¤G­Ó¦h¶µ¦¡¬°¡G " << p2 << endl;
-    cout << "¬Û¥[«áªº¦h¶µ¦¡¬°¡G " << p3 << endl;
+    cout << "ç¬¬ä¸€å€‹å¤šé …å¼ç‚ºï¼š " << p1 << endl;
+    cout << "ç¬¬äºŒå€‹å¤šé …å¼ç‚ºï¼š " << p2 << endl;
+    cout << "ç›¸åŠ å¾Œçš„å¤šé …å¼ç‚ºï¼š " << p3 << endl;
 
     float x;
-    cout << "½Ð¿é¤J¤@­Ó­È¥H¨D¦h¶µ¦¡ªº­È¡G";
+    cout << "è«‹è¼¸å…¥ä¸€å€‹å€¼ä»¥æ±‚å¤šé …å¼çš„å€¼ï¼š";
     cin >> x;
-    cout << "²Ä¤@­Ó¦h¶µ¦¡ªº­È¬°¡G " << p1.Evaluate(x) << endl;
+    cout << "ç¬¬ä¸€å€‹å¤šé …å¼çš„å€¼ç‚ºï¼š " << p1.Evaluate(x) << endl;
 
     return 0;
 }
